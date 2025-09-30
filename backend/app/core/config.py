@@ -18,28 +18,30 @@ class Settings(BaseSettings):
     model_config = ConfigDict(env_file=".env", case_sensitive=False)
 
     # API Settings, default values for development, can be overriden with env vars
-    api_title: str = "CSO Knowledge System"
+    api_title: str = "AI Mind Explorer"
     api_version: str = "1.0.0"
     api_host: str = "0.0.0.0"
     api_port: int = 8000
-    
+
     # Security settings
-    secret_key: SecretStr #no default, this must be provided, never logs or prints actual value
+    secret_key: SecretStr = SecretStr("dev-secret-key-change-in-production")  # Default for development
     algorithm: str = "HS256" #JSON web token signing algorithm
     access_token_expire_minutes: int = 30
-    
-    # Database URLs, all required 
-    neo4j_uri: str
-    neo4j_user: str
-    neo4j_password: SecretStr
-    postgres_url: str
-    redis_url: str
-    
-    # Environment, set in .env file 
+
+    # Database URLs
+    neo4j_uri: str = "neo4j://localhost:7687"
+    neo4j_user: str = "neo4j"
+    neo4j_password: SecretStr = SecretStr("password")
+
+    # AI API Keys
+    openai_api_key: Optional[SecretStr] = None
+    anthropic_api_key: Optional[SecretStr] = None
+
+    # Environment, set in .env file
     environment: str = "development"
 
-    # Feature flags (default OFF)
-    enable_graph: bool = False
+    # CORS Origins
+    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:3001"]
     
     @field_validator("environment")
     def validate_environment(cls, v):

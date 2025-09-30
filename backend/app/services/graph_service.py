@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Optional, Dict
 
 from neo4j import GraphDatabase
-from backend.services.base_graph_service import BaseGraphService
+from app.services.base_graph_service import BaseGraphService
 import uuid
 
 
