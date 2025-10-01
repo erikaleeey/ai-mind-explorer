@@ -1,8 +1,8 @@
-# AI Mind Explorer 🧠
+# AI Mind Explorer 
 
 **Visualizing AI Reasoning Processes Through Interactive Knowledge Graphs**
 
-A full-stack application that externalizes and visualizes how Large Language Models (LLMs) think, making AI reasoning transparent, explorable, and editable.
+Hi there! I wanted to develop a full-stack application that externalizes and visualizes how Large Language Models (LLMs) think, making AI reasoning transparent, explorable, and editable. I didn't really like that I couldn't see how LLMs make connections between  reasoning chains (e.g. only listing out the steps of how they're thinking without really showing how their thinking can be more interconnected).
 
 ![Tech Stack](https://img.shields.io/badge/Python-FastAPI-009688?style=flat-square)
 ![Tech Stack](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square)
@@ -11,9 +11,9 @@ A full-stack application that externalizes and visualizes how Large Language Mod
 
 ---
 
-## 🎯 Project Significance
+## Project Significance
 
-As AI systems become increasingly integrated into critical decision-making processes, understanding *how* they reach conclusions is essential. Traditional LLM interfaces show only the final output, hiding the reasoning chain that produced it.
+As AI systems become increasingly integrated into critical decision-making processes, understanding *how* they reach conclusions is essential. This was inspired by my intern project with the DoD this summer, and realizing how important it is to have LLM outputs that we can trust and expose. Traditional LLM interfaces generally show only the final output, hiding the reasoning chain that produced it. Even if there are reasoning chains (like Perplexity), they're not clear about how each idea/piece of information is connected to other pieces of information. I believe that as humans, our best ideas come from being able to make connections across many different ideas instead of just disparately using  random information.
 
 **AI Mind Explorer** addresses this transparency gap by:
 
@@ -32,10 +32,10 @@ This project demonstrates proficiency in:
 
 ---
 
-## ✨ Current Features
+##  Current Features
 
 ### Core Functionality
-- **LLM Reasoning Extraction**: Prompts Google Gemini to externalize its thought process as structured JSON
+- **LLM Reasoning Extraction**: Gemini model externalizes its thought process and internal mapping/problem solving approach to your question as structured JSON
 - **Graph Visualization**: Interactive D3.js force-directed graph showing reasoning flow
 - **Neo4j Persistence**: Stores reasoning chains as nodes (thoughts) and edges (logical connections)
 - **Real-time Processing**: FastAPI backend processes prompts and returns structured reasoning chains
@@ -56,7 +56,7 @@ This project demonstrates proficiency in:
 
 ---
 
-## 🚀 Planned Enhancements
+## Planned Enhancements
 
 ### Phase 1: Core Improvements
 - [ ] Session retrieval and history browsing
@@ -84,7 +84,7 @@ This project demonstrates proficiency in:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **FastAPI** - Modern Python web framework for APIs
@@ -108,7 +108,7 @@ This project demonstrates proficiency in:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ai-mind-explorer/
@@ -121,7 +121,7 @@ ai-mind-explorer/
 │   │   │   └── database.py    # Neo4j connection
 │   │   ├── models/            # Pydantic models
 │   │   │   └── thought_models.py
-│   │   └── services/          # Business logic
+│   │   └── services/          
 │   │       ├── llm_service.py      # LLM integration
 │   │       └── graph_service.py    # Neo4j operations
 │   ├── main.py                # FastAPI app entry point
@@ -146,7 +146,7 @@ ai-mind-explorer/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - **Python 3.9+**
@@ -229,7 +229,7 @@ npm start
 
 ---
 
-## 🎮 Usage
+##  Usage
 
 ### Processing a Prompt
 
@@ -252,7 +252,7 @@ npm start
 
 ---
 
-## 🧪 Development
+##  Development (TBD)
 
 ### Running Tests
 ```bash
@@ -287,7 +287,7 @@ RETURN t1, r, t2
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 This is a personal portfolio project, but feedback and suggestions are welcome! Feel free to:
 - Open issues for bugs or feature requests
@@ -296,9 +296,9 @@ This is a personal portfolio project, but feedback and suggestions are welcome! 
 
 ---
 
-## 📄 License
+##  License
 
-MIT License - See LICENSE file for details
+MIT License 
 
 ---
 
@@ -306,18 +306,10 @@ MIT License - See LICENSE file for details
 
 **Erika Lee**
 
-- Portfolio: [your-portfolio-url]
-- LinkedIn: [your-linkedin-url]
-- GitHub: [@yourusername](https://github.com/yourusername)
-
 ---
 
 ## 🙏 Acknowledgments
 
-- Inspired by research in explainable AI and knowledge graphs
-- Built with modern tools from the incredible open-source community
-- Special thanks to the FastAPI, React, D3.js, and Neo4j teams
-
----
+- Inspired by research in explainable AI and knowledge graphs! I'll definitely be adding more depth to this project as I get more into research on AI explainability, alignment, and interpretability.
 
 **⭐ If you find this project interesting, please consider starring it!**
