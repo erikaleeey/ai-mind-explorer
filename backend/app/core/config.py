@@ -15,7 +15,7 @@ config.py uses Pydantic Settings to create a centralized,
 
 
 class Settings(BaseSettings):
-    model_config = ConfigDict(env_file=".env", case_sensitive=False)
+    model_config = ConfigDict(env_file="../.env", case_sensitive=False)
 
     # API Settings, default values for development, can be overriden with env vars
     api_title: str = "AI Mind Explorer"
@@ -28,10 +28,15 @@ class Settings(BaseSettings):
     algorithm: str = "HS256" #JSON web token signing algorithm
     access_token_expire_minutes: int = 30
 
+    # Database URLs, all required 
+    neo4j_uri: str
+    neo4j_user: str
+    neo4j_password: SecretStr
+
     # Database URLs
-    neo4j_uri: str = "neo4j://localhost:7687"
-    neo4j_user: str = "neo4j"
-    neo4j_password: SecretStr = SecretStr("password")
+    #neo4j_uri: str = "neo4j://localhost:7687"
+    #neo4j_user: str = "neo4j"
+    #neo4j_password: SecretStr = SecretStr("password")
 
     # AI API Keys
     openai_api_key: Optional[SecretStr] = None

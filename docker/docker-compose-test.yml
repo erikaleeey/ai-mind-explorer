@@ -1,0 +1,50 @@
+# Docker Compose configuration for testing environment
+# 
+# This sets up isolated database containers for testing the CSO knowledge system
+# without interfering with any production or development databases.
+#
+# Usage:
+#.  cd docker
+#   docker-compose -f docker-compose-test.yml up -d    # Start containers
+#   docker-compose -f docker-compose-test.yml down     # Stop containers
+#   docker-compose -f docker-compose-test.yml logs     # View logs
+
+version: '3.8'
+services:
+  neo4j-test:
+    # Neo4j 5.15 - Latest stable version with improved performance
+    image: neo4j:5.15
+    environment:
+      # Set authentication credentials (username/password)
+      - NEO4J_AUTH=neo4j/testpassword
+      # Enable APOC library for advanced graph algorithms and utilities
+      - NEO4J_PLUGINS=["apoc"]
+    ports:
+      # Map to different ports to avoid conflicts with local Neo4j instances
+      - "7688:7687"  # Bolt protocol port (used by Python driver)
+      - "7475:7474"  # HTTP port (Neo4j Browser interface)
+    volumes:
+      # Persist graph data between container restarts
+      - neo4j_test_data:/data
+      
+  postgres-test:
+    # PostgreSQL 16 - Used for structured data and metadata storage
+    image: postgres:16
+    environment:
+      # Database configuration for provenance and metadata
+      - POSTGRES_DB=provenance_test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testpassword
+    ports:
+      # Use port 5433 to avoid conflicts with local PostgreSQL
+      - "5433:5432"
+
+# Named volumes for data persistence
+volumes:
+  neo4j_test_data:
+    # This volume persists the Neo4j graph data between container runs
+    # Without this, all graph data would be lost when containers are stopped
+
+
+#compose file is fine for standing up test DBs. 
+#To run the app/tests in containers, add a backend service + Dockerfile that installs your Python dependencies.
