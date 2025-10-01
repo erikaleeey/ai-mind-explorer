@@ -23,13 +23,19 @@ settings = Settings()
 
 def get_llm_service() -> LLMService:
     """Dependency to get LLM service"""
-    api_key = settings.openai_api_key
-    if not api_key:
+    # Try Gemini first (preferred), fallback to OpenAI
+    gemini_key = settings.gemini_api_key if hasattr(settings, 'gemini_api_key') else None
+    openai_key = settings.openai_api_key
+
+    if gemini_key:
+        return LLMService(api_key=gemini_key.get_secret_value(), provider="gemini")
+    elif openai_key:
+        return LLMService(api_key=openai_key.get_secret_value(), provider="openai")
+    else:
         raise HTTPException(
             status_code=500,
-            detail="OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file"
+            detail="No API key configured. Please set GEMINI_API_KEY or OPENAI_API_KEY in your .env file"
         )
-    return LLMService(api_key=api_key.get_secret_value())
 
 
 @router.post("/process", response_model=ReasoningChain)
@@ -62,6 +68,44 @@ async def process_prompt(
             session_id=session_id
         )
 
+        # Get graph service and persist to Neo4j
+        graph = get_graph_service()
+
+        # Store session node
+        session_node_id = graph.create_node("Session", {
+            "session_id": session_id,
+            "prompt": request.prompt,
+            "status": "completed"
+        })
+
+        # Store thought nodes in Neo4j
+        node_id_map = {}  # Map internal IDs to Neo4j IDs
+        for node_data in reasoning_data["nodes"]:
+            neo4j_id = graph.create_node("ThoughtNode", {
+                "node_id": node_data["id"],
+                "type": node_data["type"],
+                "content": node_data["content"],
+                "confidence": node_data["confidence"],
+                "session_id": session_id
+            })
+            node_id_map[node_data["id"]] = neo4j_id
+
+            # Link thought to session
+            graph.create_relationship(session_node_id, neo4j_id, "HAS_THOUGHT")
+
+        # Store edges in Neo4j
+        for edge_data in reasoning_data["edges"]:
+            source_neo4j_id = node_id_map.get(edge_data["source_id"])
+            target_neo4j_id = node_id_map.get(edge_data["target_id"])
+
+            if source_neo4j_id and target_neo4j_id:
+                graph.create_relationship(
+                    source_neo4j_id,
+                    target_neo4j_id,
+                    "LEADS_TO",
+                    {"label": edge_data["label"], "confidence": edge_data.get("confidence", 1.0)}
+                )
+
         # Create response
         reasoning_chain = ReasoningChain(
             session_id=session_id,
@@ -72,7 +116,7 @@ async def process_prompt(
             created_at=datetime.utcnow().isoformat()
         )
 
-        logger.info(f"Successfully processed prompt for session {session_id}")
+        logger.info(f"Successfully processed and saved prompt for session {session_id}")
 
         return reasoning_chain
 
@@ -126,5 +170,5 @@ async def reasoning_health():
     return {
         "status": "healthy",
         "llm_configured": api_key_configured,
-        "model": "gpt-4-turbo-preview"
+        "model": "gpt-4o-mini"
     }

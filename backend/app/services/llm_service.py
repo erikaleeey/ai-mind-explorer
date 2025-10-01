@@ -1,4 +1,5 @@
 from openai import OpenAI
+import google.generativeai as genai
 from typing import Dict, List, Optional
 import json
 import logging
@@ -10,16 +11,23 @@ logger = logging.getLogger(__name__)
 class LLMService:
     """Service for interacting with LLMs to extract reasoning chains"""
 
-    def __init__(self, api_key: str, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, api_key: str, model: str = "gemini-2.5-flash", provider: str = "gemini"):
         """
         Initialize the LLM service.
 
         Args:
-            api_key: OpenAI API key
-            model: Model to use (default: gpt-4-turbo-preview)
+            api_key: API key (OpenAI or Gemini)
+            model: Model to use 
+            provider: "openai" or "gemini" (default: gemini)
         """
-        self.client = OpenAI(api_key=api_key)
+        self.provider = provider
         self.model = model
+
+        if provider == "gemini":
+            genai.configure(api_key=api_key)
+            self.client = genai.GenerativeModel(model)
+        else:
+            self.client = OpenAI(api_key=api_key)
 
     async def generate_reasoning_chain(self, prompt: str, session_id: str) -> Dict:
         """
@@ -89,17 +97,29 @@ Now process the user's question and output your reasoning chain."""
         try:
             logger.info(f"Generating reasoning chain for prompt: {prompt[:100]}...")
 
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.7
-            )
-
-            reasoning_data = json.loads(response.choices[0].message.content)
+            if self.provider == "gemini":
+                # Gemini API call
+                full_prompt = f"{system_prompt}\n\nUser question: {prompt}"
+                response = self.client.generate_content(
+                    full_prompt,
+                    generation_config=genai.GenerationConfig(
+                        temperature=0.7,
+                        response_mime_type="application/json"
+                    )
+                )
+                reasoning_data = json.loads(response.text)
+            else:
+                # OpenAI API call
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": prompt}
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.7
+                )
+                reasoning_data = json.loads(response.choices[0].message.content)
 
             # Validate and transform the response
             nodes = []

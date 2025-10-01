@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     # AI API Keys
     openai_api_key: Optional[SecretStr] = None
     anthropic_api_key: Optional[SecretStr] = None
+    gemini_api_key: Optional[SecretStr] = None
 
     # Environment, set in .env file
     environment: str = "development"
