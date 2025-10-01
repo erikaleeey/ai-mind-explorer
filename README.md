@@ -2,7 +2,17 @@
 
 **Visualizing AI Reasoning Processes Through Interactive Knowledge Graphs**
 
-Hi there! I wanted to develop a full-stack application that externalizes and visualizes how Large Language Models (LLMs) think, making AI reasoning transparent, explorable, and editable. I didn't really like that I couldn't see how LLMs make connections between  reasoning chains (e.g. only listing out the steps of how they're thinking without really showing how their thinking can be more interconnected).
+Hi! I built this project because I was frustrated with how opaque AI reasoning feels. When we ask an LLM a question, we get an answer, but we don't get to see *how* it connected the dots to get there. Even when systems show their "thinking" (like chain-of-thought prompting), it's just a linear list of steps. But I don't think that's how real thinking works! Our best ideas come from making unexpected connections across different concepts, seeing patterns, and building on interconnected knowledge.
+
+During my internship with the DoD this summer, I saw firsthand how critical it is to trust and verify AI outputs, especially in high-stakes scenarios. We can't just accept what an LLM says. We need to understand its reasoning process, identify potential flaws, and ideally, intervene when it's heading down the wrong path.
+
+That's what **AI Mind Explorer** does. It externalizes LLM reasoning as an interactive knowledge graph, showing not just *what* the AI thinks, but *how* its ideas connect and flow. This matters for three reasons I'm really excited about:
+
+1. **Explainability**: Making AI transparent so we can actually understand and trust its decisions
+2. **Interpretability**: Visualizing reasoning patterns to catch biases, logical errors, and failure modes before they cause problems
+3. **Intervention**: Exposing intermediate reasoning states so we can steer AI thinking, correct mistakes mid-stream, and explore alternative paths
+
+Through this project, I hope to make more small steps toward mechanistic interpretability: being able to understand and modify AI systems at the level of their internal representations, not just treat them as black boxes. There's so much fascinating research happening in AI alignment and interpretability right now, and I'm excited to keep building on these ideas! 
 
 ![Tech Stack](https://img.shields.io/badge/Python-FastAPI-009688?style=flat-square)
 ![Tech Stack](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square)
@@ -13,16 +23,14 @@ Hi there! I wanted to develop a full-stack application that externalizes and vis
 
 ## Project Significance
 
-As AI systems become increasingly integrated into critical decision-making processes, understanding *how* they reach conclusions is essential. This was inspired by my intern project with the DoD this summer, and realizing how important it is to have LLM outputs that we can trust and expose. Traditional LLM interfaces generally show only the final output, hiding the reasoning chain that produced it. Even if there are reasoning chains (like Perplexity), they're not clear about how each idea/piece of information is connected to other pieces of information. I believe that as humans, our best ideas come from being able to make connections across many different ideas instead of just disparately using  random information.
-
-**AI Mind Explorer** addresses this transparency gap by:
+**AI Mind Explorer** seeks to do the following:
 
 - **Externalizing AI thought processes** into structured, visual reasoning chains
 - **Making black-box decisions interpretable** through graph-based visualization
 - **Enabling reasoning exploration** so users can understand AI logic step-by-step
 - **Building toward AI accountability** by preserving and analyzing reasoning patterns
 
-This project demonstrates proficiency in:
+This project involves:
 - Full-stack development with modern frameworks
 - Graph database design and implementation
 - LLM integration and prompt engineering
