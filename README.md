@@ -2,6 +2,12 @@
 
 **Visualizing AI Reasoning Processes Through Interactive Knowledge Graphs**
 
+![Tech Stack](https://img.shields.io/badge/Python-FastAPI-009688?style=flat-square)
+![Tech Stack](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square)
+![Tech Stack](https://img.shields.io/badge/Neo4j-Graph%20DB-008CC1?style=flat-square)
+![Tech Stack](https://img.shields.io/badge/D3.js-Visualization-F9A03C?style=flat-square)
+
+
 Hi! I built this project because I was frustrated with how opaque AI reasoning feels. When we ask an LLM a question, we get an answer, but we don't get to see *how* it connected the dots to get there. Even when systems show their "thinking" (like chain-of-thought prompting), it's just a linear list of steps. But I don't think that's how real thinking works! Our best ideas come from making unexpected connections across different concepts, seeing patterns, and building on interconnected knowledge.
 
 During my internship with the DoD this summer, I saw firsthand how critical it is to trust and verify AI outputs, especially in high-stakes scenarios. We can't just accept what an LLM says. We need to understand its reasoning process, identify potential flaws, and ideally, intervene when it's heading down the wrong path.
@@ -13,11 +19,6 @@ That's what **AI Mind Explorer** does. It externalizes LLM reasoning as an inter
 3. **Intervention**: Exposing intermediate reasoning states so we can steer AI thinking, correct mistakes mid-stream, and explore alternative paths
 
 Through this project, I hope to make more small steps toward mechanistic interpretability: being able to understand and modify AI systems at the level of their internal representations, not just treat them as black boxes. There's so much fascinating research happening in AI alignment and interpretability right now, and I'm excited to keep building on these ideas! 
-
-![Tech Stack](https://img.shields.io/badge/Python-FastAPI-009688?style=flat-square)
-![Tech Stack](https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square)
-![Tech Stack](https://img.shields.io/badge/Neo4j-Graph%20DB-008CC1?style=flat-square)
-![Tech Stack](https://img.shields.io/badge/D3.js-Visualization-F9A03C?style=flat-square)
 
 ---
 
